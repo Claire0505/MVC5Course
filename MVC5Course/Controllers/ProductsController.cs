@@ -120,7 +120,7 @@ namespace MVC5Course.Controllers
         }
 
         [HttpPost, ActionName("DeleteProduct")]
-        public ActionResult DeleteProductConfirmed(int id , ProductViewModel data)
+        public ActionResult DeleteProductConfirmed(int id)
         {
             var product = db.Product.Find(id);
 
