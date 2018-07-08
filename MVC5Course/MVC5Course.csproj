@@ -190,6 +190,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FabricsModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\InputValidations\IdentificationIdAttribute.cs" />
     <Compile Include="Models\Occupation.cs">
       <DependentUpon>FabricsModel.tt</DependentUpon>
     </Compile>
