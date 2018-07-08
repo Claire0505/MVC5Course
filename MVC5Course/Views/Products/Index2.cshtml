@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<MVC5Course.Models.ProductViewModel>
 
 @{
-    ViewBag.Title = "Index2";
+    ViewBag.Title = "商品列表";
 }
 
-<h2>Index2</h2>
+<h2>@ViewBag.Title</h2>
 <p>
-    @Html.ActionLink("Create New", "AddNewProduct")
+    @Html.ActionLink("新增", "AddNewProduct", "Products", null, new { @class="btn btn-info"})
 </p>
 
 <table class="table">
@@ -36,7 +36,8 @@
             @Html.DisplayFor(modelItem => item.Stock)
         </td>
         <td>
-            @Html.ActionLink("Edit", "EditProduct", new { id = item.ProductId})
+            @Html.ActionLink("編輯", "EditProduct", new { id = item.ProductId }, new { @class = "btn btn-primary" })
+            @Html.ActionLink("刪除", "DeleteProduct", new { id = item.ProductId }, new { @class = "btn btn-warning" })
         </td>
        
     </tr>

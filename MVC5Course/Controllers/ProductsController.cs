@@ -52,7 +52,7 @@ namespace MVC5Course.Controllers
             return View();
         }
 
-        //07 練習透過 ViewModel 建立表單頁面與透過 ViewModel 接資料
+        // 07 練習透過 ViewModel 建立表單頁面與透過 ViewModel 接資料
         [HttpPost]
         public ActionResult AddNewProduct(ProductViewModel data)
         {
@@ -80,13 +80,14 @@ namespace MVC5Course.Controllers
             return RedirectToAction("Index2");
         }
 
-        //09 練習透過 Entity Framework 更新一筆 Product 資料
+        // 09 練習透過 Entity Framework 更新一筆 Product 資料
         public ActionResult EditProduct( int id)
         {
             var data = db.Product.Find(id);
             return View(data);
         }
 
+        // 09 練習透過 Entity Framework 更新一筆 Product 資料
         [HttpPost]
         public ActionResult EditProduct(int id, ProductViewModel data)
         {
@@ -111,6 +112,28 @@ namespace MVC5Course.Controllers
             return RedirectToAction("Index2");
         }
 
+        // 10 練習透過 Entity Framework 刪除一筆 Product 資料
+        public ActionResult DeleteProduct(int id)
+        {
+            var data = db.Product.Find(id);
+            return View(data);
+        }
+
+        [HttpPost, ActionName("DeleteProduct")]
+        public ActionResult DeleteProductConfirmed(int id , ProductViewModel data)
+        {
+            var product = db.Product.Find(id);
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.Product.Remove(product);
+            db.SaveChanges();
+
+            return RedirectToAction("Index2");
+        }
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
