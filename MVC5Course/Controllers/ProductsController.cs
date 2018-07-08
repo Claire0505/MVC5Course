@@ -61,6 +61,20 @@ namespace MVC5Course.Controllers
             }
 
             // TODO 新增Product資料
+            // 08 練習透過 Entity Framework 新增一筆 Product 資料
+            //新增 Product 資料
+            var product = new Product()
+            {
+                // ProductId 由 db table 自動編號
+                ProductId = data.ProductId,
+                ProductName = data.ProductName,
+                Price = data.Price,
+                Active = true,
+                Stock = data.Stock
+            };
+
+            db.Product.Add(product);
+            db.SaveChanges();
 
             return RedirectToAction("Index2");
         }
