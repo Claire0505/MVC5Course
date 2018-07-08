@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using Omu.ValueInjecter;
 
 namespace MVC5Course.Controllers
 {
@@ -95,10 +96,16 @@ namespace MVC5Course.Controllers
             }
 
             var product = db.Product.Find(id);
-            product.ProductName = data.ProductName;
-            product.Price = data.Price;
-            product.Stock = data.Stock;
+            //product.ProductName = data.ProductName;
+            //product.Price = data.Price;
+            //product.Stock = data.Stock;
 
+            // 示範 ValueInjecter 的基本用法
+            // ValueInjecter基本使用說明
+            // ViewModel要轉資料庫Model的情形發生，一的般方法通常都會打一長串code將ViewModel的值給Model
+            // product.InjectFrom(data)這段的意思是，將同樣型別、同樣屬性名稱的職Mapping到data去
+            // 當Properties有十幾二十個的後，會有明顯的感覺，程式碼看起來也會短很多。
+            product.InjectFrom(data);
             db.SaveChanges();
 
             return RedirectToAction("Index2");
