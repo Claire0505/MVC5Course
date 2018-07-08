@@ -79,6 +79,32 @@ namespace MVC5Course.Controllers
             return RedirectToAction("Index2");
         }
 
+        //09 練習透過 Entity Framework 更新一筆 Product 資料
+        public ActionResult EditProduct( int id)
+        {
+            var data = db.Product.Find(id);
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult EditProduct(int id, ProductViewModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var product = db.Product.Find(id);
+            product.ProductName = data.ProductName;
+            product.Price = data.Price;
+            product.Stock = data.Stock;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index2");
+        }
+
+
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
