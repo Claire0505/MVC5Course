@@ -26,6 +26,7 @@ namespace MVC5Course.Controllers
             return View(data);
         }
 
+        //06 練習透過 ViewModel 建立頁面
         public ActionResult Index2()
         {
             var data = db.Product
@@ -41,6 +42,27 @@ namespace MVC5Course.Controllers
                 });
 
             return View(data);
+        }
+
+        //07 練習透過 ViewModel 建立表單頁面與透過 ViewModel 接資料
+        public ActionResult AddNewProduct()
+        {
+
+            return View();
+        }
+
+        //07 練習透過 ViewModel 建立表單頁面與透過 ViewModel 接資料
+        [HttpPost]
+        public ActionResult AddNewProduct(ProductViewModel data)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // TODO 新增Product資料
+
+            return RedirectToAction("Index2");
         }
 
         // GET: Products/Details/5
