@@ -12,29 +12,35 @@ namespace MVC5Course.Controllers
 {
     public class ClientsController : Controller
     {
-        private FabricsEntities db = new FabricsEntities();
+        //private FabricsEntities db = new FabricsEntities();
+
+        // 15 請將 ClientController 改用 Repository 與 UnitOfWork 來實作
+        ClientRepository clientRepo = RepositoryHelper.GetClientRepository();
+        OccupationRepository occuRepo = RepositoryHelper.GetOccupationRepository();
 
         // GET: Clients
         public ActionResult Index()
         {
-            var client = db.Client.Include(c => c.Occupation);
+            //var client = db.Client.Include(c => c.Occupation);
+            var client = clientRepo.All();
             return View(client.OrderByDescending(o => o.ClientId).Take(10));
         }
 
         //14 對 Client 資料新增「搜尋」功能
         public ActionResult Search(string keyword)
         {
-            var client = db.Client.AsQueryable();
+            //var client = db.Client.AsQueryable();
 
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                client = client.Where(w => w.FirstName.Contains(keyword)).Take(10);
-            }
+            //if (!string.IsNullOrEmpty(keyword))
+            //{
+            //    client = client.Where(w => w.FirstName.Contains(keyword)).Take(10);
+            //}
 
-            //return View();
-
+            
+            var client = clientRepo.SearchKeyword(keyword);
             //指定由那個View顯示查詢結果
             return View("Index", client);
+            
         }
 
         // GET: Clients/Details/5
@@ -44,7 +50,10 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = db.Client.Find(id);
+
+            //Client client = db.Client.Find(id);
+            Client client = clientRepo.Find(id.Value);
+
             if (client == null)
             {
                 return HttpNotFound();
@@ -55,7 +64,9 @@ namespace MVC5Course.Controllers
         // GET: Clients/Create
         public ActionResult Create()
         {
-            ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName");
+            //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName");
+            var occuData = occuRepo.All();
+            ViewBag.OccupationId = new SelectList(occuData, "OccupationId", "OccupationName");
             return View();
         }
 
@@ -68,12 +79,19 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Client.Add(client);
-                db.SaveChanges();
+                //db.Client.Add(client);
+                //db.SaveChanges();
+
+                clientRepo.Add(client);
+                clientRepo.UnitOfWork.Commit();
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+            //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+            var occuData = occuRepo.All();
+            ViewBag.OccupationId = new SelectList(occuData, "OccupationId", "OccupationName", client.OccupationId);
+
             return View(client);
         }
 
@@ -84,12 +102,18 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = db.Client.Find(id);
+
+            //Client client = db.Client.Find(id);
+            Client client = clientRepo.Find(id.Value);
+
             if (client == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+            //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+            var occuData = occuRepo.All();
+            ViewBag.OccupationId = new SelectList(occuData, "OccupationId", "OccupationName", client.OccupationId);
+
             return View(client);
         }
 
@@ -102,11 +126,16 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
+                var db = clientRepo.UnitOfWork.Context;
                 db.Entry(client).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+            //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+            var occuData = occuRepo.All();
+            ViewBag.OccupationId = new SelectList(occuData, "OccupationId", "OccupationName", client.OccupationId);
+
             return View(client);
         }
 
@@ -117,7 +146,10 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Client client = db.Client.Find(id);
+
+            //Client client = db.Client.Find(id);
+            Client client = clientRepo.Find(id.Value);
+
             if (client == null)
             {
                 return HttpNotFound();
@@ -130,9 +162,14 @@ namespace MVC5Course.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Client client = db.Client.Find(id);
-            db.Client.Remove(client);
-            db.SaveChanges();
+            //Client client = db.Client.Find(id);
+            //db.Client.Remove(client);
+            //db.SaveChanges();
+
+            Client client = clientRepo.Find(id);
+            clientRepo.Delete(client);
+            clientRepo.UnitOfWork.Commit();
+
             return RedirectToAction("Index");
         }
 
@@ -140,7 +177,8 @@ namespace MVC5Course.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
+                clientRepo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }
