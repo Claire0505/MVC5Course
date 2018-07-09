@@ -13,9 +13,12 @@ namespace MVC5Course
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //17 練習用屬性路由 (Attribute Routing) 來定義自訂網址結構
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}.php/{id}",  //將ASP.NET MVC 網站一秒變 PHP
+                url: "{controller}/{action}/{id}", 
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }

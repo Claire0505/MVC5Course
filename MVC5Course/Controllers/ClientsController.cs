@@ -10,6 +10,7 @@ using MVC5Course.Models;
 
 namespace MVC5Course.Controllers
 {
+    [RoutePrefix("clients")]  //17 練習用屬性路由 (Attribute Routing) 來定義自訂網址結構
     public class ClientsController : Controller
     {
         //private FabricsEntities db = new FabricsEntities();
@@ -28,6 +29,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients
+        [Route("")]
         public ActionResult Index()
         {
             //var client = db.Client.Include(c => c.Occupation);
@@ -36,6 +38,7 @@ namespace MVC5Course.Controllers
         }
 
         //14 對 Client 資料新增「搜尋」功能
+        [Route("search")]
         public ActionResult Search(string keyword , int take = 0)
         {
             //var client = db.Client.AsQueryable();
@@ -53,6 +56,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Details/5
+        [Route("id")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -71,6 +75,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Create
+        [Route("create")]
         public ActionResult Create()
         {
             //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName");
@@ -84,6 +89,7 @@ namespace MVC5Course.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("create")]
         public ActionResult Create([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,IdNumber")] Client client)
         {
             if (ModelState.IsValid)
@@ -105,6 +111,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Edit/5
+        [Route("edit/{id}")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -131,6 +138,7 @@ namespace MVC5Course.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("edit/{id}")]
         public ActionResult Edit([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,IdNumber")] Client client)
         {
             if (ModelState.IsValid)
@@ -149,6 +157,7 @@ namespace MVC5Course.Controllers
         }
 
         // GET: Clients/Delete/5
+        [Route("delete/{id}")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -169,6 +178,7 @@ namespace MVC5Course.Controllers
         // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("delete/{id}")]
         public ActionResult DeleteConfirmed(int id)
         {
             //Client client = db.Client.Find(id);
