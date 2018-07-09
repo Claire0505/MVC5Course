@@ -15,8 +15,17 @@ namespace MVC5Course.Controllers
         //private FabricsEntities db = new FabricsEntities();
 
         // 15 請將 ClientController 改用 Repository 與 UnitOfWork 來實作
-        ClientRepository clientRepo = RepositoryHelper.GetClientRepository();
-        OccupationRepository occuRepo = RepositoryHelper.GetOccupationRepository();
+        //ClientRepository clientRepo = RepositoryHelper.GetClientRepository();
+        //OccupationRepository occuRepo = RepositoryHelper.GetOccupationRepository();
+
+        //將兩個 Repository (table) 共用一份 UnitOfWork 物件 客戶資料表 + 客戶職業資料表
+        ClientRepository clientRepo;
+        OccupationRepository occuRepo;
+        public ClientsController()
+        {
+            clientRepo = RepositoryHelper.GetClientRepository();
+            occuRepo = RepositoryHelper.GetOccupationRepository(clientRepo.UnitOfWork);
+        }
 
         // GET: Clients
         public ActionResult Index()
