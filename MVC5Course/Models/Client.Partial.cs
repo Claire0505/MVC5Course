@@ -82,6 +82,8 @@ namespace MVC5Course.Models
         [IdentificationId]
         public string IdNumber { get; set; }
 
+        public bool Active { get; set; }
+
         public virtual Occupation Occupation { get; set; }
         public virtual ICollection<Order> Order { get; set; }
     }
