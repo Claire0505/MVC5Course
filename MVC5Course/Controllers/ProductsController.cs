@@ -13,16 +13,15 @@ namespace MVC5Course.Controllers
 {
     public class ProductsController : Controller
     {
-        private FabricsEntities db = new FabricsEntities();
+        //private FabricsEntities db = new FabricsEntities();
+
+        //將 ProductsController 改用 Repository 與 UnitOfWork 來實作
+        ProductRepository prodRepo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
         public ActionResult Index()
         {
-            // return View(db.Product.ToList());
-            var data = db.Product
-                 .OrderByDescending(p => p.ProductId)
-                 .Take(10)
-                 .ToList();
+            var data = prodRepo.TakeData(10);
 
             return View(data);
         }
@@ -30,17 +29,7 @@ namespace MVC5Course.Controllers
         //06 練習透過 ViewModel 建立頁面
         public ActionResult Index2()
         {
-            var data = db.Product
-                .Where(w => w.Active == true)
-                .OrderByDescending(o => o.ProductId)
-                .Take(10)
-                .Select(s => new ProductViewModel()
-                {
-                    ProductId = s.ProductId,
-                    ProductName = s.ProductName,
-                    Price = s.Price,
-                    Stock = s.Stock
-                });
+            IQueryable<ProductViewModel> data = prodRepo.ProductViewModel();
 
             return View(data);
         }
@@ -48,7 +37,6 @@ namespace MVC5Course.Controllers
         //07 練習透過 ViewModel 建立表單頁面與透過 ViewModel 接資料
         public ActionResult AddNewProduct()
         {
-
             return View();
         }
 
@@ -74,8 +62,8 @@ namespace MVC5Course.Controllers
                 Stock = data.Stock
             };
 
-            db.Product.Add(product);
-            db.SaveChanges();
+            prodRepo.Add(product);
+            prodRepo.UnitOfWork.Commit();
 
             return RedirectToAction("Index2");
         }
@@ -83,7 +71,7 @@ namespace MVC5Course.Controllers
         // 09 練習透過 Entity Framework 更新一筆 Product 資料
         public ActionResult EditProduct( int id)
         {
-            var data = db.Product.Find(id);
+            var data = prodRepo.Find(id);
             return View(data);
         }
 
@@ -96,7 +84,8 @@ namespace MVC5Course.Controllers
                 return View();
             }
 
-            var product = db.Product.Find(id);
+            var product = prodRepo.Find(id);
+
             //product.ProductName = data.ProductName;
             //product.Price = data.Price;
             //product.Stock = data.Stock;
@@ -107,7 +96,7 @@ namespace MVC5Course.Controllers
             // product.InjectFrom(data)這段的意思是，將同樣型別、同樣屬性名稱的職Mapping到data去
             // 當Properties有十幾二十個的後，會有明顯的感覺，程式碼看起來也會短很多。
             product.InjectFrom(data);
-            db.SaveChanges();
+            prodRepo.UnitOfWork.Commit();
 
             return RedirectToAction("Index2");
         }
@@ -115,22 +104,22 @@ namespace MVC5Course.Controllers
         // 10 練習透過 Entity Framework 刪除一筆 Product 資料
         public ActionResult DeleteProduct(int id)
         {
-            var data = db.Product.Find(id);
+            var data = prodRepo.Find(id);
             return View(data);
         }
 
         [HttpPost, ActionName("DeleteProduct")]
         public ActionResult DeleteProductConfirmed(int id)
         {
-            var product = db.Product.Find(id);
+            var product = prodRepo.Find(id);
 
             if (product == null)
             {
                 return HttpNotFound();
             }
 
-            db.Product.Remove(product);
-            db.SaveChanges();
+            prodRepo.Delete(product);
+            prodRepo.UnitOfWork.Commit();
 
             return RedirectToAction("Index2");
         }
@@ -142,7 +131,9 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+
+            Product product = prodRepo.Find(id.Value);
+
             if (product == null)
             {
                 return HttpNotFound();
@@ -165,8 +156,9 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Product.Add(product);
-                db.SaveChanges();
+                prodRepo.Add(product);
+                prodRepo.UnitOfWork.Commit();
+
                 return RedirectToAction("Index");
             }
 
@@ -180,7 +172,9 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+
+            Product product = prodRepo.Find(id.Value);
+
             if (product == null)
             {
                 return HttpNotFound();
@@ -197,6 +191,7 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
+                var db = prodRepo.UnitOfWork.Context;
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -211,7 +206,9 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+
+            Product product = prodRepo.Find(id.Value);
+
             if (product == null)
             {
                 return HttpNotFound();
@@ -224,9 +221,10 @@ namespace MVC5Course.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Product.Find(id);
-            db.Product.Remove(product);
-            db.SaveChanges();
+            Product product = prodRepo.Find(id);
+            prodRepo.Delete(product);
+            prodRepo.UnitOfWork.Commit();
+
             return RedirectToAction("Index");
         }
 
@@ -234,7 +232,7 @@ namespace MVC5Course.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                prodRepo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }
