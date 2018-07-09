@@ -27,7 +27,7 @@
           <Property Name="Latitude" Type="float" />
           <Property Name="Notes" Type="nvarchar(max)" />
           <Property Name="IdNumber" Type="varchar" MaxLength="10" />
-          <Property Name="Active" Type="bit" />
+          <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Occupation">
           <Key>
@@ -166,7 +166,7 @@
           <NavigationProperty Name="Occupation" Relationship="Self.FK_Client_Occupation" FromRole="Client" ToRole="Occupation" />
           <NavigationProperty Name="Order" Relationship="Self.fk_Order_ClientId" FromRole="Client" ToRole="Order" />
           <Property Name="IdNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="Active" Type="Boolean" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Occupation">
           <Key>

@@ -36,7 +36,7 @@ namespace MVC5Course.Controllers
         }
 
         //14 對 Client 資料新增「搜尋」功能
-        public ActionResult Search(string keyword)
+        public ActionResult Search(string keyword , int take = 0)
         {
             //var client = db.Client.AsQueryable();
 
@@ -46,7 +46,7 @@ namespace MVC5Course.Controllers
             //}
 
             
-            var client = clientRepo.SearchKeyword(keyword);
+            var client = clientRepo.SearchKeyword(keyword, take);
             //指定由那個View顯示查詢結果
             return View("Index", client);
             
