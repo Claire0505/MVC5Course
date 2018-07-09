@@ -74,6 +74,25 @@ namespace MVC5Course.Controllers
             return View(client);
         }
 
+        //示範 CatchAll 路由的用法(會顯示完整的PATH INFO)
+        //若網址是 /TEST.axd/a/b/c/d 則 pathInfo 所得到的值為 a/b/c/d，如果沒加上星號 ( * ) 該 pathInfo 就會等於 a 而已。
+        [Route("{*name}")]
+        public ActionResult Details2(string name)
+        {
+            string[] names = name.Split('/');
+            string FirstName = names[0];
+            string MiddleName = names[1];
+            string LastName = names[2];
+
+            Client client = clientRepo.All().FirstOrDefault(p => p.FirstName == FirstName && p.MiddleName == MiddleName && p.LastName == LastName);
+
+            if (client == null)
+            {
+                return HttpNotFound();
+            }
+            return View("Details", client);
+        }
+
         // GET: Clients/Create
         [Route("create")]
         public ActionResult Create()
