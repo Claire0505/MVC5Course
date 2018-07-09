@@ -13,10 +13,9 @@ namespace MVC5Course
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //將 ASP.NET MVC 網站一秒變 PHP
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
+                url: "{controller}/{action}.php/{id}",  //將ASP.NET MVC 網站一秒變 PHP
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
         }
