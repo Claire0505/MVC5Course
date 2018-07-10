@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>顯示圖片</h2>
+
+@*//22 練習用 FileResult 輸出一張圖片，並透過 ?dl=1 下載圖片 點圖片就下載*@
+
+<a href="@Url.Action("FileTest")?dl=1"><img src="@Url.Action("FileTest")" /></a>

@@ -41,5 +41,21 @@ namespace MVC5Course.Controllers
                     "text/plain",
                     Encoding.GetEncoding("Big5"));
         }
+
+        //22 練習用 FileResult 輸出一張圖片，並透過 ?dl=1 下載圖片
+        public ActionResult FileTest(string dl)
+        {
+            if (String.IsNullOrEmpty(dl))
+            {
+                return File(Server.MapPath("~/App_Data/fifa-18-world-cup.jpg"),
+                    "image/jpeg");
+            }
+            else
+            {
+                return File(Server.MapPath("~/App_Data/fifa-18-world-cup.jpg"),
+                    "image/jpeg", "My-FIFA-Picture.jpg");
+            }
+
+        }
     }
 }
