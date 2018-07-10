@@ -14,6 +14,7 @@ namespace MVC5Course.Controllers
             return View();
         }
 
+        //20 練習將字串當成 Model 傳到 View 並顯示 Model 內容
         public ActionResult ViewTest()
         {
             // View 可以帶入 object model 或 sting viewName
@@ -22,6 +23,14 @@ namespace MVC5Course.Controllers
 
             string model = "TestModel";
             return View((object)model);
+        }
+
+
+        //21 練習用 PartialView 顯示一個沒有 Layout 的頁面
+        public ActionResult PartialViewTest()
+        {
+            string model = "PartialView";
+            return PartialView("ViewTest", (object)model);
         }
     }
 }
