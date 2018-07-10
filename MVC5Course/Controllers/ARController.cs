@@ -16,8 +16,12 @@ namespace MVC5Course.Controllers
 
         public ActionResult ViewTest()
         {
+            // View 可以帶入 object model 或 sting viewName
+            // 當有個 string 型別的 model 要傳入 View，會被誤判為 viewName
+            // 因此在傳入前將 object 型別加上去避免誤判，實際上比較少遇到此做法
 
-            return View();
+            string model = "TestModel";
+            return View((object)model);
         }
     }
 }
