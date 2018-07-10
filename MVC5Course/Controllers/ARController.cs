@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
 
 namespace MVC5Course.Controllers
 {
@@ -31,6 +32,14 @@ namespace MVC5Course.Controllers
         {
             string model = "PartialView";
             return PartialView("ViewTest", (object)model);
+        }
+
+        //示範 ContentResult 的用法
+        public ActionResult ContentTest()
+        {
+            return Content("Test Content!!",
+                    "text/plain",
+                    Encoding.GetEncoding("Big5"));
         }
     }
 }
