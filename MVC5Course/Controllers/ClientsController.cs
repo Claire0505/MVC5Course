@@ -26,7 +26,7 @@ namespace MVC5Course.Controllers
         {
             clientRepo = RepositoryHelper.GetClientRepository();
             occuRepo = RepositoryHelper.GetOccupationRepository(clientRepo.UnitOfWork);
-        }
+        }   
 
         // GET: Clients
         [Route("")]
@@ -205,7 +205,8 @@ namespace MVC5Course.Controllers
             //db.SaveChanges();
 
             Client client = clientRepo.Find(id);
-            clientRepo.Delete(client);
+            client.IsDeleted = true;
+            //clientRepo.Delete(client);
             clientRepo.UnitOfWork.Commit();
 
             return RedirectToAction("Index");

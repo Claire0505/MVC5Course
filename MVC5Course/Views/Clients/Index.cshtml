@@ -12,11 +12,14 @@
 
 @using (Html.BeginForm("Search", "Clients", FormMethod.Get, null))
 {
-    @Html.TextBox("keyword", null, new { placeholder = "請輸入關鍵字" })
-    <br />
-    @Html.TextBox("take", null, new { placeholder = "請輸入筆數" })
-    <input type="submit" />
+    <div class="form-inline">
+        @Html.TextBox("keyword", null, new { @class = "form-control", placeholder = "請輸入關鍵字" })
+        @Html.TextBox("take", null, new { @class = "form-control", placeholder = "請輸入筆數" })
+        <input type="submit" class="btn btn-primary" />
+    </div>
+    
 }
+<br />
 
 <table class="table">
     <tr>

@@ -16,7 +16,7 @@ namespace MVC5Course.Models
                 return base.All();
             }
 
-            return base.All().Where(p => p.CreditRating < 2 && p.Active == true);
+            return base.All().Where(p => p.CreditRating < 6 && p.IsDeleted == false);
         }
 
         public IQueryable<Client> SearchKeyword(string keyword, int take)
@@ -47,7 +47,7 @@ namespace MVC5Course.Models
 
         public override void Delete(Client entity)
         {
-            entity.Active = false;
+            entity.IsDeleted = true;
         }
     }
 
