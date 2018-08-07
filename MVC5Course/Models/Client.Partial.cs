@@ -8,6 +8,12 @@ namespace MVC5Course.Models
     [MetadataType(typeof(ClientMetaData))]
     public partial class Client : IValidatableObject
     {
+        //24 練習設定模型預設值的開發技巧 ( 利用 partial method 與修改 tt 檔 )
+        partial void Init()
+        {
+            this.DateOfBirth = DateTime.Now.AddYears(-18);
+        }
+
         //實作模型驗證
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
@@ -15,7 +21,7 @@ namespace MVC5Course.Models
             // 通常此判斷為當資料為 新增 時需要判斷的模型驗證
             if (this.ClientId == 0)
             {
-                // 實作模型驗證
+                // 實作模型驗證 通常 P.K. 為 0 代表著正在執行「新增」動作
             }
 
             if (this.Longitude.HasValue != this.Latitude.HasValue)
@@ -50,7 +56,7 @@ namespace MVC5Course.Models
         [StringLength(1, ErrorMessage="欄位長度不得大於 1 個字元")]
         public string Gender { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> DateOfBirth { get; set; }
 

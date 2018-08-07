@@ -14,16 +14,19 @@ namespace MVC5Course.Models
     
     public partial class Occupation
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Occupation()
-        {
-            this.Client = new HashSet<Client>();
-        }
+    	partial void Init();
     
-        public int OccupationId { get; set; }
-        public string OccupationName { get; set; }
+    	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    	public Occupation()
+    	{
+    		this.Client = new HashSet<Client>();
+    		this.Init();
+    	}
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Client> Client { get; set; }
+    	public int OccupationId { get; set; }
+    	public string OccupationName { get; set; }
+    
+    	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    	public virtual ICollection<Client> Client { get; set; }
     }
 }

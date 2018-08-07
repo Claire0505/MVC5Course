@@ -14,19 +14,22 @@ namespace MVC5Course.Models
     
     public partial class Product
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
-        {
-            this.OrderLine = new HashSet<OrderLine>();
-        }
+    	partial void Init();
     
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<bool> Active { get; set; }
-        public Nullable<decimal> Stock { get; set; }
+    	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+    	public Product()
+    	{
+    		this.OrderLine = new HashSet<OrderLine>();
+    		this.Init();
+    	}
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderLine> OrderLine { get; set; }
+    	public int ProductId { get; set; }
+    	public string ProductName { get; set; }
+    	public Nullable<decimal> Price { get; set; }
+    	public Nullable<bool> Active { get; set; }
+    	public Nullable<decimal> Stock { get; set; }
+    
+    	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+    	public virtual ICollection<OrderLine> OrderLine { get; set; }
     }
 }
