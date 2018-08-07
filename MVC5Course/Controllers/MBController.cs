@@ -29,6 +29,9 @@ namespace MVC5Course.Controllers
         public ActionResult ViewBagDemo()
         {
             ViewBag.Text = "這是 ViewBag Demo";
+
+            //示範 ViewData[""] 弱型別在 View 中需要轉型的問題
+            ViewData["Data"] = db.Client.Take(5).ToList();
             return View();
         }
 

@@ -1,9 +1,18 @@
 ﻿
 @{
     ViewBag.Title = "ViewBagDemo";
+
+    var data = ViewData["Data"] as List<MVC5Course.Models.Client>;
 }
 
 <h2>ViewBagDemo</h2>
+示範 ViewData[""] 弱型別在 View 中需要轉型的問題
+<ul>
+    @foreach (var item in data)
+    {
+        <li>@item.FirstName</li>
+    }
+</ul>
 
 使用 ViewBag 取得
 <pre>@ViewBag.Text</pre>
