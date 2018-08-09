@@ -15,6 +15,7 @@ namespace MVC5Course.Models
         public string FirstName { get; set; }
 
         [StringLength(40, ErrorMessage = "欄位長度不得大於 40 個字元")]
+        [Required]
         public string MiddleName { get; set; }
 
         [Required]
