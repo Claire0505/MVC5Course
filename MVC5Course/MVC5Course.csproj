@@ -168,6 +168,7 @@
     <Compile Include="Models\Client.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientBatchViewModel.cs" />
     <Compile Include="Models\ClientRepository.cs">
       <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
@@ -335,6 +336,7 @@
     <Content Include="Views\MB\ViewBagDemo.cshtml" />
     <Content Include="Views\MB\ViewDataDemo.cshtml" />
     <Content Include="Views\MB\TempDataDemo.cshtml" />
+    <Content Include="Views\Clients\BatchUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />
