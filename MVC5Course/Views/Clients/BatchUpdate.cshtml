@@ -1,0 +1,92 @@
+﻿@model IEnumerable<MVC5Course.Models.Client>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Search", "Clients", FormMethod.Get, null))
+{
+    <div class="form-inline">
+        @Html.TextBox("keyword", null, new { @class = "form-control", placeholder = "請輸入關鍵字" })
+        <input type="submit" class="btn btn-primary" />
+    </div>
+
+}
+<br />
+
+@using (Html.BeginForm("BatchUpdate", "Clients"))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreditRating)
+            </th>
+            <th></th>
+        </tr>
+
+        @{
+            //將Model 轉成陣列
+            var data = Model.ToArray();
+        }
+
+        @for (var i = 0; i < data.Length; i++)
+        {
+            @Html.HiddenFor(modelItem => data[i].ClientId)
+            <tr>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].FirstName)
+                    @Html.ValidationMessageFor(model => data[i].FirstName, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].MiddleName)
+                    @Html.ValidationMessageFor(model => data[i].MiddleName, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => data[i].LastName)
+                    @Html.ValidationMessageFor(model => data[i].LastName, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => data[i].CreditRating)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = data[i].ClientId }) |
+                    @Html.ActionLink("Details", "Details", new { id = data[i].ClientId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = data[i].ClientId })
+                </td>
+            </tr>
+
+        }
+    
+    </table>
+
+    <input type="submit" value="批次修改" class="btn btn-primary"/>
+}
+
+

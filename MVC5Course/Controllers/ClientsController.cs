@@ -55,6 +55,39 @@ namespace MVC5Course.Controllers
             
         }
 
+        // 26 練習透過 Model Binding 實現批次更新功能
+        // GET: BatchUpdate
+        [Route("BatchUpdate")]
+        public ActionResult BatchUpdate()
+        {
+            var client = clientRepo.All();
+            return View(client.OrderByDescending(o => o.ClientId).Take(10));
+        }
+
+        // 批次修改資料
+        [HttpPost]
+        [Route("BatchUpdate")]
+        public ActionResult BatchUpdate(ClientBatchViewModel[] data)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in data)
+                {
+                    var client = clientRepo.Find(item.ClientId);
+                    client.FirstName = item.FirstName;
+                    client.MiddleName = item.MiddleName;
+                    client.LastName = item.LastName;
+                }
+
+                clientRepo.UnitOfWork.Commit();
+
+                return RedirectToAction("Index");
+            }
+
+            ViewData.Model = clientRepo.All().OrderByDescending(o => o.ClientId).Take(10);
+            return View("BatchUpdate");
+        }
+
         // GET: Clients/Details/5
         [Route("id")]
         public ActionResult Details(int? id)
@@ -84,12 +117,16 @@ namespace MVC5Course.Controllers
             string MiddleName = names[1];
             string LastName = names[2];
 
-            Client client = clientRepo.All().FirstOrDefault(p => p.FirstName == FirstName && p.MiddleName == MiddleName && p.LastName == LastName);
+            var client = clientRepo.All()
+                .FirstOrDefault(w => w.FirstName == FirstName &&
+                                   w.MiddleName == MiddleName &&
+                                   w.LastName == LastName);
 
             if (client == null)
             {
-                return HttpNotFound();
+
             }
+
             return View("Details", client);
         }
 
@@ -171,8 +208,22 @@ namespace MVC5Course.Controllers
             //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
             var occuData = occuRepo.All();
             ViewBag.OccupationId = new SelectList(occuData, "OccupationId", "OccupationName", client.OccupationId);
+            
+            // 清除 ModelState
+            /* 若清除 ModelState 後會以 Model 為資料 Binding 回 View
+                (此指下方再次從 EF 取得資料的 item) */
+            //ModelState.Clear();
 
-            return View(client);
+            // 移除 ModelState 單一欄位
+            /* 此處移除欄位後，會再與下方 item 取得的 Model 資料欄位合併，傳回給 View */
+            // ModelState.Remove("Latitude");
+
+            // 當 ModelState 資料與 Model 資料都存在時，會以 ModelState 為優先
+            var item = clientRepo.Find(client.ClientId);
+            return View(item);
+            //return View(client);
+
+
         }
 
         // GET: Clients/Delete/5
