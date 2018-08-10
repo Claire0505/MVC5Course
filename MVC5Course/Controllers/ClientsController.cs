@@ -68,8 +68,11 @@ namespace MVC5Course.Controllers
         // 批次修改資料
         [HttpPost]
         [Route("BatchUpdate")]
-        public ActionResult BatchUpdate(ClientBatchViewModel[] data)
+        public ActionResult BatchUpdate(ClientBatchViewModel[] data, PageCondViewModel page)
         {
+            // page.Keyword
+            // data[0].ClintId
+
             if (ModelState.IsValid)
             {
                 foreach (var item in data)
@@ -211,6 +214,7 @@ namespace MVC5Course.Controllers
         // POST: Clients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // 使用 FormCollection 用意是為了區別與上面 Edit 的 Get 功能區分 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit/{id}")]
@@ -218,6 +222,7 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
+                // 這段 code 寫得很糟糕
                 var db = clientRepo.UnitOfWork.Context;
                 db.Entry(client).State = EntityState.Modified;
                 db.SaveChanges();

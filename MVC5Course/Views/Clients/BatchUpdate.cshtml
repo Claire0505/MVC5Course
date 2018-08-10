@@ -22,6 +22,9 @@
 
 @using (Html.BeginForm("BatchUpdate", "Clients"))
 {
+    @Html.TextBox("page.keyword", "Will")
+    @Html.TextBox("page.pageNo", 10)
+
     <table class="table">
         <tr>
             <th>

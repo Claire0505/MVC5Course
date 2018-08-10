@@ -234,6 +234,7 @@
     <Compile Include="Models\OrderRepository.cs">
       <DependentUpon>IRepository.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PageCondViewModel.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>FabricsModel.tt</DependentUpon>
     </Compile>
