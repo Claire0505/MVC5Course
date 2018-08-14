@@ -6,7 +6,7 @@ namespace MVC5Course.Models
     using Models.InputValidations;
 
     [MetadataType(typeof(ClientMetaData))]
-    public partial class Client : IValidatableObject
+    public partial class Client : IValidatableObject, IClientBatchUpdate
     {
         //24 練習設定模型預設值的開發技巧 ( 利用 partial method 與修改 tt 檔 )
         partial void Init()

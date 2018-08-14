@@ -198,6 +198,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FabricsModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\IClientBatchUpdate.cs" />
     <Compile Include="Models\InputValidations\IdentificationIdAttribute.cs" />
     <Compile Include="Models\IRepository.cs">
       <AutoGen>True</AutoGen>
