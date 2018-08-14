@@ -68,6 +68,7 @@ namespace MVC5Course.Controllers
         // 批次修改資料
         [HttpPost]
         [Route("BatchUpdate")]
+        [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "Error_DbEntityValidationException")]
         public ActionResult BatchUpdate(ClientBatchViewModel[] data, PageCondViewModel page)
         {
             // page.Keyword
@@ -83,27 +84,12 @@ namespace MVC5Course.Controllers
                     client.LastName = item.LastName;
                 }
 
-                //clientRepo.UnitOfWork.Commit();
                 // 示範如何取得 DbEntityValidationException 例外的驗證失敗資訊
-                try
-                {
-                    clientRepo.UnitOfWork.Commit();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    List<string> errors = new List<string>();
-                    foreach (var vError in ex.EntityValidationErrors)
-                    {
-                        foreach (var err in vError.ValidationErrors)
-                        {
-                            errors.Add($"{err.PropertyName} : {err.ErrorMessage}");
-                        }
-                    }
-
-                    return Content(String.Join(", ", errors.ToArray()));
-                }
+                // 使用自訂錯誤處理 HandleError
+                clientRepo.UnitOfWork.Commit();
 
                 return RedirectToAction("Index");
+
             }
 
             ViewData.Model = clientRepo.All().OrderByDescending(o => o.ClientId).Take(10);

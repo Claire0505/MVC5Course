@@ -339,6 +339,7 @@
     <Content Include="Views\MB\ViewDataDemo.cshtml" />
     <Content Include="Views\MB\TempDataDemo.cshtml" />
     <Content Include="Views\Clients\BatchUpdate.cshtml" />
+    <Content Include="Views\Shared\Error_DbEntityValidationException.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />
