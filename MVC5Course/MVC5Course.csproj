@@ -160,6 +160,7 @@
     <Compile Include="Controllers\LocalOnlyAttribute.cs" />
     <Compile Include="Controllers\MBController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\RazorController.cs" />
     <Compile Include="Controllers\ShareDataAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -342,6 +343,8 @@
     <Content Include="Views\MB\TempDataDemo.cshtml" />
     <Content Include="Views\Clients\BatchUpdate.cshtml" />
     <Content Include="Views\Shared\Error_DbEntityValidationException.cshtml" />
+    <Content Include="Views\Razor\Index.cshtml" />
+    <Content Include="Views\Razor\RazorTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />

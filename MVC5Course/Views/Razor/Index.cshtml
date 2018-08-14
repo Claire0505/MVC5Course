@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "<h1>Hello World!!!!!</h1>";
+}
+
+@ViewBag.Title
+
+@* 用 Raw 輸出可得到有效的 Html 標籤文字*@
+@Html.Raw(ViewBag.Title)
+
+<ul>
+    @for (int i = 0; i < 10; i++)
+    {
+        <li>@i</li>
+    }
+</ul>
+
+@if (true)
+{
+    <blockquote style="background :#ff6a00">
+        Hello World
+    </blockquote>
+}
+
+<hr />
+
+@if (true)
+{
+    <text>
+        Hello World
+    </text>
+}
+
