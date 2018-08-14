@@ -218,21 +218,24 @@ namespace MVC5Course.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit/{id}")]
-        public ActionResult Edit([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,IdNumber")] Client client)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
-            {
-                // 這段 code 寫得很糟糕
-                var db = clientRepo.UnitOfWork.Context;
-                db.Entry(client).State = EntityState.Modified;
-                db.SaveChanges();
+            // 使用模型繫結延遲驗證 TryUpdateModel
+            Client client = clientRepo.Find(id);
 
+            // prefix: 前端欄位 name 屬性若使用 page.id 就可以設定此為 page
+            //      會去找 page 名稱下的欄位資料
+            // includeProperties: 放需要修改的欄位(就算欄位有被修改也會忽略)
+            // excludeProperties: 放不需要修改的欄位(就算該欄位有被修改也會忽略)
+            if (TryUpdateModel(client, "", null, excludeProperties: new string[] { "FirstName" }))
+            {
+                clientRepo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            //ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
+
             var occuData = occuRepo.All();
             ViewBag.OccupationId = new SelectList(occuData, "OccupationId", "OccupationName", client.OccupationId);
-            
+
             // 清除 ModelState
             /* 若清除 ModelState 後會以 Model 為資料 Binding 回 View
                 (此指下方再次從 EF 取得資料的 item) */
@@ -245,8 +248,6 @@ namespace MVC5Course.Controllers
             // 當 ModelState 資料與 Model 資料都存在時，會以 ModelState 為優先
             var item = clientRepo.Find(client.ClientId);
             return View(item);
-            //return View(client);
-
 
         }
 
