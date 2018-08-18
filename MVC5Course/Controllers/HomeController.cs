@@ -17,7 +17,7 @@ namespace MVC5Course.Controllers
         [產生ViewBag下有一個Message可以用]
         public ActionResult About()
         {
-            //ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Your application description page.";
 
             // throw new ArgumentException("ERROR");
 
