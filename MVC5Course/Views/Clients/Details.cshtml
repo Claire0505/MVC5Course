@@ -148,37 +148,20 @@
 
     </dl>
 </div>
+
+<hr />
+<h3>Order List (Html.Partial)</h3>
+@*若已經知道 Model 會有資料就用這個較為簡單，
+    但如果使用 Lazy Loding 會找不到 Model 需要用下方 Html.Action 的方式*@
+@Html.Partial("OrderList", Model.Order.ToList())
+
+<h3>Order List ( Html.Action )</h3>
+@*耦合性較低，但需要另外建立 ActionResult *@
+@Html.Action("Detail_OrderList", new { id = Model.ClientId})
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ClientId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-<table class="table">
-    <tr>
-        <th>
-            OrderDate
-        </th>
-        <th>
-            OrderTotal
-        </th>
-        <th>
-            OrderStatus
-        </th>
-    </tr>
-
-    @foreach (var item in Model.Order)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderStatus)
-            </td>
-        </tr>
-    }
-
-</table>

@@ -138,6 +138,14 @@ namespace MVC5Course.Controllers
             return View("Details", client);
         }
 
+        [Route("{id}/orders")]
+        public ActionResult Detail_OrderList(int id)
+        {
+            ViewData.Model = clientRepo.Find(id).Order.ToList();
+
+            return PartialView("OrderList");
+        }
+
         // GET: Clients/Create
         [Route("create")]
         public ActionResult Create()
