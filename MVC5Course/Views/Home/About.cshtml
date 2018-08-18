@@ -6,6 +6,20 @@
 
 <p>Use this area to provide additional information.</p>
 
+@Model
+@*取得路由指定的 id 參數*@
+
+@{ var routeValues = ViewContext.RouteData.Values;}
+@routeValues["id"].ToString();
+@HttpContext.Current.Items
+
+
+@*取得 ModelState 的路由資料*@
+@ViewData.ModelState["id"].Value.AttemptedValue
+
+@ViewContext.ViewData.Model
+@ViewContext.ViewData.ModelState["id"].Value.AttemptedValue
+@ViewContext.RouteData.Values["action"].ToString()
 
 
 @* ViewContext.HttpContext.Items
