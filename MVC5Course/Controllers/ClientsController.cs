@@ -139,6 +139,7 @@ namespace MVC5Course.Controllers
         }
 
         [Route("{id}/orders")]
+        [ChildActionOnly] // 代表不能讓使用者直接連到該 ActionResult
         public ActionResult Detail_OrderList(int id)
         {
             ViewData.Model = clientRepo.Find(id).Order.ToList();
