@@ -16,10 +16,10 @@ namespace MVC5Course.Models
                 return base.All();
             }
 
-            return base.All().Where(p => p.CreditRating < 6 && p.IsDeleted == false);
+            return base.All().Where(p => p.CreditRating < 7 && p.IsDeleted == false);
         }
 
-        public IQueryable<Client> SearchKeyword(string keyword, int take)
+        public IQueryable<Client> SearchKeyword(string keyword, int take, string CreditRating)
         {
             var data = this.All();
 
@@ -35,6 +35,11 @@ namespace MVC5Course.Models
             else
             {
                 data = data.OrderByDescending(o => o.ClientId).Take(5);
+            }
+
+            if (!string.IsNullOrEmpty(CreditRating))
+            {
+                data = data.Where(w => w.CreditRating.ToString() == CreditRating);
             }
 
             return data;

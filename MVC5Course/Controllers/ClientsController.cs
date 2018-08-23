@@ -35,22 +35,42 @@ namespace MVC5Course.Controllers
         {
             //var client = db.Client.Include(c => c.Occupation);
             var client = clientRepo.All();
+
+            // 34 練習 @Html.DropDownList() 下拉選單用法
+            var creditRating = clientRepo.All()
+                .Select(p => p.CreditRating)
+                .Distinct()
+                .OrderBy(o => o)
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Value.ToString(),
+                    Value = s.Value.ToString()
+                });
+
+            ViewBag.creditRating = new SelectList(creditRating, "Value", "Text");
+
             return View(client.OrderByDescending(o => o.ClientId).Take(10));
         }
 
         //14 對 Client 資料新增「搜尋」功能
         [Route("search")]
-        public ActionResult Search(string keyword , int take = 0)
+        public ActionResult Search(string keyword , string CreditRating, int take = 0)
         {
-            //var client = db.Client.AsQueryable();
+                      
+            var client = clientRepo.SearchKeyword(keyword, take, CreditRating);
 
-            //if (!string.IsNullOrEmpty(keyword))
-            //{
-            //    client = client.Where(w => w.FirstName.Contains(keyword)).Take(10);
-            //}
+            var creditRating = clientRepo.All()
+                .Select(p => p.CreditRating)
+                .Distinct()
+                .OrderBy(o => o)
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Value.ToString(),
+                    Value = s.Value.ToString()
+                });
 
-            
-            var client = clientRepo.SearchKeyword(keyword, take);
+            ViewBag.CreditRating = new SelectList(creditRating, "Value", "Text");
+
             //指定由那個View顯示查詢結果
             return View("Index", client);
             
