@@ -42,7 +42,8 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-primary" }) |
-            @Ajax.ActionLink("Details","Details", new { id = item.ProductId}, new AjaxOptions() { UpdateTargetId = "details"})|
+            @Ajax.ActionLink("Details","Details", new { id = item.ProductId}, 
+                            new AjaxOptions() { UpdateTargetId = "details"}, new {@class = "btn btn-info" })|
             @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-warning" })
         </td>
     </tr>
