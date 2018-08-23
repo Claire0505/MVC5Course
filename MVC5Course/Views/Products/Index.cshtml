@@ -14,6 +14,11 @@
 <p>
     @Html.ActionLink("Create New", "Create", null , new { @class = "btn btn-info" })
 </p>
+
+<div id="loading" style="display: none">
+    <img src="http://www.ajaxload.info/cache/ff/00/00/00/00/00/9-1.gif" />
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -52,7 +57,7 @@
             @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-warning" })*@
 
             @{ 
-                var ajaxOptions = new AjaxOptions() { UpdateTargetId = "details" };
+                var ajaxOptions = new AjaxOptions() { UpdateTargetId = "details", LoadingElementId= "loading" };
             }
             @Ajax.ActionLink("Edit","Edit", new { id= item.ProductId}, ajaxOptions) |
             @Ajax.ActionLink("Details", "Details", new { id = item.ProductId }, ajaxOptions) |
