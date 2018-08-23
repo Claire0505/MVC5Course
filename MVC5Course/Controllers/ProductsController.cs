@@ -194,7 +194,16 @@ namespace MVC5Course.Controllers
                 var db = prodRepo.UnitOfWork.Context;
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                // 示範完整頁面的 @Ajax 實作
+                if (Request.IsAjaxRequest())
+                {
+                    return new EmptyResult();
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             return View(product);
         }
@@ -218,14 +227,20 @@ namespace MVC5Course.Controllers
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = prodRepo.Find(id);
             prodRepo.Delete(product);
             prodRepo.UnitOfWork.Commit();
 
-            return RedirectToAction("Index");
+            var data = db.Product
+                .OrderByDescending(o => o.ProductId)
+                .Take(10)
+                .ToList();
+            return View("Index", data);
+
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
