@@ -42,10 +42,16 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-primary" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProductId }, new { @class = "btn btn-info" }) |
+            @Ajax.ActionLink("Details","Details", new { id = item.ProductId}, new AjaxOptions() { UpdateTargetId = "details"})|
             @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-warning" })
         </td>
     </tr>
 }
 
 </table>
+
+<div id="details"></div>
+
+@section scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}
