@@ -10,7 +10,17 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+
+    @*
+        示範預設值優先順序
+            第 1 順位 ModelState
+            第 2 順位 在 View 裡 @Html.TextBox 直接給值
+            第 3 順位 ViewBag 欄位名稱(保哥最滿意的寫法)
+            第 4 順位 Model
+    *@
     
+    @Html.TextBox("FirstName", "My")
+
     <div class="form-horizontal">
         <h4>Client</h4>
         <hr />

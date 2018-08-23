@@ -157,11 +157,18 @@
 
 <h3>Order List ( Html.Action )</h3>
 @*耦合性較低，但需要另外建立 ActionResult *@
-@Html.Action("Detail_OrderList", new { id = Model.ClientId})
+@Html.Action("Detail_OrderList", new { id = Model.ClientId })
 
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ClientId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@*示範參數帶錯的問題*@
+@*正確*@
+@Html.ActionLink("Hello", "Index", "Home", null, new { @class = "btn" })|
+
+@*錯誤 ?Length=4*@
+@Html.ActionLink("Hello", "Index", "Home", new { @class = "btn" })
 
