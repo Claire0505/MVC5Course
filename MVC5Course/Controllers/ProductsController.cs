@@ -9,6 +9,7 @@ using System.Threading;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using Omu.ValueInjecter;
+using X.PagedList;
 
 namespace MVC5Course.Controllers
 {
@@ -20,9 +21,13 @@ namespace MVC5Course.Controllers
         ProductRepository prodRepo = RepositoryHelper.GetProductRepository();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(int? pageNo = 1)
         {
-            var data = prodRepo.TakeData(10);
+            // var data = prodRepo.TakeData(10);
+            int intPageNumber = pageNo ?? 1; //如果查詢字符串中沒有指定頁面，則默認為第一頁（1）
+            var data = prodRepo.All()
+                .OrderBy(o => o.ProductId)
+                .ToPagedList(pageNumber: intPageNumber, pageSize: 10); //pageSize，最多只包含25個產品
 
             return View(data);
         }

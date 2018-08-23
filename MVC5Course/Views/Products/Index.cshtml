@@ -1,5 +1,7 @@
-﻿@model IEnumerable<MVC5Course.Models.Product>
+﻿@model IEnumerable<Product>
 
+@using X.PagedList.Mvc;   @*//import this so we get our HTML Helper*@
+@using X.PagedList;   @*//import this so we can cast our list to IPagedList (only necessary because ViewBag is dynamic)*@
 @{
     ViewBag.Title = "Index";
 
@@ -12,7 +14,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", null , new { @class = "btn btn-info" })
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-info" })
 </p>
 
 <div id="loading" style="display: none">
@@ -36,38 +38,41 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Active)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stock)
-        </td>
-        <td>
-            @*@Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-primary" }) |
-            @Ajax.ActionLink("Details","Details", new { id = item.ProductId}, 
-                            new AjaxOptions() { UpdateTargetId = "details"}, new {@class = "btn btn-info" })|
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-warning" })*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.ProductId }, new { @class = "btn btn-primary" }) |
+                    @Ajax.ActionLink("Details","Details", new { id = item.ProductId},
+                                    new AjaxOptions() { UpdateTargetId = "details"}, new {@class = "btn btn-info" })|
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId }, new { @class = "btn btn-warning" })*@
 
-            @{ 
-                var ajaxOptions = new AjaxOptions() { UpdateTargetId = "details", LoadingElementId= "loading" };
-            }
-            @Ajax.ActionLink("Edit","Edit", new { id= item.ProductId}, ajaxOptions) |
-            @Ajax.ActionLink("Details", "Details", new { id = item.ProductId }, ajaxOptions) |
-            @Ajax.ActionLink("Delete", "Delete", new { id = item.ProductId},
-                new AjaxOptions() { HttpMethod="POST", UpdateTargetId="main", Confirm="您確定要刪除嗎?"})
-        </td>
-    </tr>
-}
+                @{
+                    var ajaxOptions = new AjaxOptions() { UpdateTargetId = "details", LoadingElementId = "loading" };
+                }
+                @Ajax.ActionLink("Edit", "Edit", new { id = item.ProductId }, ajaxOptions) |
+                @Ajax.ActionLink("Details", "Details", new { id = item.ProductId }, ajaxOptions) |
+                @Ajax.ActionLink("Delete", "Delete", new { id = item.ProductId},
+                    new AjaxOptions() { HttpMethod="POST", UpdateTargetId="main", Confirm="您確定要刪除嗎?"})
+            </td>
+        </tr>
+    }
 
 </table>
+
+@Html.PagedListPager(Model as IPagedList, (p) => Url.Action("Index", new { pageNo = p }))
 
 <div id="details"></div>
 
