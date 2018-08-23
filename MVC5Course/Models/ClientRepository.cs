@@ -16,7 +16,7 @@ namespace MVC5Course.Models
                 return base.All();
             }
 
-            return base.All().Where(p => p.CreditRating < 7 && p.IsDeleted == false);
+            return base.All().Where(p => p.IsDeleted == false);
         }
 
         public IQueryable<Client> SearchKeyword(string keyword, int take, string CreditRating)
