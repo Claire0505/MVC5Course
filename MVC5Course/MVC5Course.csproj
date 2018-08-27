@@ -168,6 +168,7 @@
     <Compile Include="Controllers\LocalOnlyAttribute.cs" />
     <Compile Include="Controllers\MBController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\Products1Controller.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RazorController.cs" />
     <Compile Include="Controllers\ShareDataAttribute.cs" />
@@ -624,6 +625,12 @@
     <Content Include="Views\Shared\DisplayTemplates\Order.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Order.cshtml" />
+    <Content Include="Views\Products1\Create.cshtml" />
+    <Content Include="Views\Products1\Delete.cshtml" />
+    <Content Include="Views\Products1\Details.cshtml" />
+    <Content Include="Views\Products1\Edit.cshtml" />
+    <Content Include="Views\Products1\Index.cshtml" />
+    <Content Include="Views\Products1\IndexT4.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
