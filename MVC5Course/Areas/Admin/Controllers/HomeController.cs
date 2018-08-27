@@ -9,8 +9,10 @@ namespace MVC5Course.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         // GET: Admin/Home
-        public ActionResult Index()
+        // 41 練習 Ajax.JavaScriptStringEncode 輸出安全的 JavaScript 字串
+        public ActionResult Index(string msg)
         {
+            ViewBag.Msg = msg + "');\t\n" + "console.log('jj";
             return View();
         }
     }
